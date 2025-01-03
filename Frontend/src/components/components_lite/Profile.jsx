@@ -89,7 +89,7 @@ const Profile = () => {
                   href={user?.profile?.resume}
                   className="text-blue-600 hover:underline cursor-pointer"
                 >
-                  {/* Download */}
+                  Download
                   {user?.profile?.resumeOriginalName}
                 </a>
               ) : (

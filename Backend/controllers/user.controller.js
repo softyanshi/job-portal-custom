@@ -137,7 +137,7 @@ export const updateProfile = async (req, res) => {
     console.log('Uploaded file:', req.file);
     console.log('Request body:', req.body);
 
-    const { fullname, email, phoneNumber, bio, skills } = req.body;
+    const { fullname, email, phoneNumber, bio, skills } = req.body;  
     const file = req.file;
 
     // Check if file is uploaded
