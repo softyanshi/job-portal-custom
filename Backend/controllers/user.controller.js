@@ -14,6 +14,10 @@ export const register = async (req, res) => {
         success: false,
       });
     }
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
@@ -30,6 +34,11 @@ export const register = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       role,
+      profile:{
+        profilePhoto: cloudResponse.secure_url,
+        
+
+      }
     });
 
     await newUser.save();
@@ -117,20 +126,19 @@ export const login = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {
+export const logout = async (req, res) => {
   try {
-    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      message: "Logged out successfully",
-      success: true,
-    });
+      return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+          message: "Logged out successfully.",
+          success: true
+      })
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Server Error logout",
-      success: false,
-    });
+      console.log(error);
   }
-};
+}
+
+
+
 
 export const updateProfile = async (req, res) => {
   try {
