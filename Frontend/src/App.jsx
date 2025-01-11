@@ -12,6 +12,7 @@ import Profile from "./components/components_lite/Profile.jsx";
 import Description from "./components/components_lite/Description.jsx";
 import Companies from "./components/admincomponent/Companies";
 import CompanyCreate from "./components/admincomponent/CompanyCreate";
+import CompanySetup from "./components/admincomponent/CompanySetup";
 
 const appRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -60,6 +61,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/admin/companies/create",
     element: <CompanyCreate />,
+  },
+  {
+    path: "/admin/companies/:id",
+    element: <CompanySetup />,
   },
 ]);
 
