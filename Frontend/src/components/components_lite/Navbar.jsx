@@ -45,18 +45,31 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-10">
           <ul className="flex font-medium items-center gap-6">
-            <li>
-              {" "}
-              <Link to={"/Home"}>Home</Link>
-            </li>
-            <li>
-              {" "}
-              <Link to={"/Browse"}>Browse</Link>{" "}
-            </li>
-            <li>
-              {" "}
-              <Link to={"/Jobs"}>Jobs</Link>
-            </li>
+            {user && user.role === "Recruiter" ? (
+              <>
+                <li>
+                  <Link to={"/admin/companies"}>Companies</Link>
+                </li>
+                <li>
+                  <Link to={"/admin/jobs"}>Jobs</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  {" "}
+                  <Link to={"/Home"}>Home</Link>
+                </li>
+                <li>
+                  {" "}
+                  <Link to={"/Browse"}>Browse</Link>{" "}
+                </li>
+                <li>
+                  {" "}
+                  <Link to={"/Jobs"}>Jobs</Link>
+                </li>
+              </>
+            )}
           </ul>
           {!user ? (
             <div className=" flex items-center gap-2">
@@ -76,7 +89,7 @@ const Navbar = () => {
               <PopoverTrigger asChild>
                 <Avatar className="cursor-pointer">
                   <AvatarImage
-                    src= {user?.profile?.profilePhoto}
+                    src={user?.profile?.profilePhoto}
                     alt="@shadcn"
                   />
                 </Avatar>
@@ -92,18 +105,22 @@ const Navbar = () => {
                   <div>
                     <h3 className="font-medium">{user?.fullname}</h3>
                     <p className="text-sm text-muted-foreground">
-                    {user?.profile?.bio}
+                      {user?.profile?.bio}
                     </p>
                   </div>
                 </div>
+
                 <div className="flex flex-col my-2 text-gray-600  ">
-                  <div className="flex w-fit items-center gap-2 cursor-pointer">
-                    <User2></User2>
-                    <Button variant="link">
-                      {" "}
-                      <Link to={"/Profile"}> Profile</Link>{" "}
-                    </Button>
-                  </div>
+                  {user && user.role === "Student" && (
+                    <div className="flex w-fit items-center gap-2 cursor-pointer">
+                      <User2></User2>
+                      <Button variant="link">
+                        {" "}
+                        <Link to={"/Profile"}> Profile</Link>{" "}
+                      </Button>
+                    </div>
+                  )}
+
                   <div className="flex w-fit items-center gap-2 cursor-pointer">
                     <LogOut></LogOut>
                     <Button onClick={logoutHandler} variant="link">

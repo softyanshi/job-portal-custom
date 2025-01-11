@@ -10,6 +10,7 @@ import Jobs from "./components/components_lite/Jobs.jsx";
 import Browse from "./components/components_lite/Browse.jsx";
 import Profile from "./components/components_lite/Profile.jsx";
 import Description from "./components/components_lite/Description.jsx";
+import Companies from "./components/admincomponent/Companies";
 
 const appRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -49,6 +50,15 @@ const appRouter = createBrowserRouter([
     path: "/Browse",
     element: <Browse />,
   },
+
+  // /admin
+  {
+    path: "/admin/companies",
+    element: <Companies />,
+  },
+  {
+    
+  }
 ]);
 
 function App() {
