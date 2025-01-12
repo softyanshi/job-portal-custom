@@ -5,9 +5,12 @@ import { Button } from "../ui/button";
 import CompaniesTable from "./CompaniesTable";
 import { useNavigate } from "react-router-dom";
 
+import useGetAllCompanies from "@/hooks/usegetAllCompanies";
+
 const Companies = () => {
   const navigate = useNavigate();
 
+  useGetAllCompanies();
   return (
     <div>
       <Navbar />
