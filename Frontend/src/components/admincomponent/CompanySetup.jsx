@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components_lite/Navbar.jsx";
 import { Button } from "../ui/button.jsx";
-import { ArrowLeft , Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { Label } from "../ui/label.jsx";
 import { Input } from "../ui/input.jsx";
 import axios from "axios";
 import { COMPANY_API_ENDPOINT } from "../../utils/data.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 const CompanySetup = () => {
   const params = useParams();
-
+  
   const [input, setInput] = useState({
     name: "",
     description: "",
@@ -19,6 +20,7 @@ const CompanySetup = () => {
     location: "",
     file: null,
   });
+  const { singleCompany } = useSelector((store) => store.company);
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -55,7 +57,7 @@ const CompanySetup = () => {
         }
       );
       console.log(res); // Debugging API response
-  
+
       // Assuming a successful response has a `message` property
       if (res.status === 200 && res.data.message) {
         toast.success(res.data.message);
@@ -64,14 +66,23 @@ const CompanySetup = () => {
         throw new Error("Unexpected API response.");
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
+      const errorMessage =
+        error.response?.data?.message || "An unexpected error occurred.";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
-  
-  
+
+  useEffect(() => {
+    setInput({
+      name: singleCompany.name || "",
+      description: singleCompany.description || "",
+      website: singleCompany.website || "",
+      location: singleCompany.location || "",
+      file: singleCompany.file || null,
+    });
+  }, [singleCompany]);
 
   return (
     <div>

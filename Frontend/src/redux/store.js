@@ -3,6 +3,8 @@ import authReducer from "./authSlice";
 import jobSlice from "./jobSlice";
 import jobReducer from "./jobSlice";
 import { createRoot } from "react-dom/client";
+import { companySlice } from "./companyslice";
+import companyReducer from "./companyslice";
 
 import {
   persistStore,
@@ -15,7 +17,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { companySlice } from "./companyslice";
+ 
 
 const persistConfig = {
   key: "root",
@@ -28,6 +30,8 @@ const rootReducer = combineReducers({
   job: jobSlice,
   jobs: jobReducer,
   company: companySlice,
+  company: companyReducer,
+  
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
