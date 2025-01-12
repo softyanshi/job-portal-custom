@@ -1,4 +1,7 @@
 import { Company } from "../models/company.model.js";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from '../utils/cloud.js';
+
 
 export const registerCompany = async (req, res) => {
   try {
@@ -6,32 +9,29 @@ export const registerCompany = async (req, res) => {
     if (!companyName) {
       return res.status(401).json({
         message: "Company name is required",
-        success: false
+        success: false,
       });
     }
     let company = await Company.findOne({ name: companyName });
     if (company) {
       return res.status(401).json({
         message: "Company already exists",
-        success: false
+        success: false,
       });
-    };
+    }
     company = await Company.create({
       name: companyName,
-      userId: req.id
+      userId: req.id,
     });
     return res.status(201).json({
       message: "Company registered successfully.",
       company,
-      success: true
-    })
+      success: true,
+    });
   } catch (error) {
     console.log(error);
   }
-}
-
-
-
+};
 
 export const getAllCompanies = async (req, res) => {
   try {
@@ -42,10 +42,9 @@ export const getAllCompanies = async (req, res) => {
     }
     return res.status(200).json({
       companies,
-      success: true
+      success: true,
     });
-  } 
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 };
@@ -70,7 +69,11 @@ export const updateCompany = async (req, res) => {
     const { name, description, website, location } = req.body;
     const file = req.file;
     //cloudinary
-    const updateData = { name, description, website, location };
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    const logo = cloudResponse.secure_url;
+
+    const updateData = { name, description, website, location, logo };
 
     const company = await Company.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
