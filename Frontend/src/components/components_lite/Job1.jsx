@@ -54,8 +54,7 @@ const Job1 = ({ job }) => {
         <Button className="p-6" variant="outline" size="icon">
           <Avatar>
             <AvatarImage
-              src="https://yt3.googleusercontent.com/Kbk6fvLQH3X7q6zGb7I-TLDH_2FFA6WZXoKZty5kjlm7nqHxUcQVgv420shK0Z_qN4sp841RVcY=s900-c-k-c0x00ffffff-no-rj"
-              alt="Company Logo"
+              src={job?.company?.logo}
             />
           </Avatar>
         </Button>
@@ -71,7 +70,7 @@ const Job1 = ({ job }) => {
         <p className="text-sm text-gray-600">{description}</p>
         <div className="flex gap-2 items-center mt-4">
           <Badge className="text-blue-600 font-bold" variant="ghost">
-            {position}
+            {position} Open Positions
           </Badge>
           <Badge className="text-[#FA4F09] font-bold" variant="ghost">
             {salary} LPA

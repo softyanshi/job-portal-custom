@@ -89,7 +89,7 @@ const Description = () => {
             <h1 className="font-bold text-xl ">{singleJob?.title}</h1>
             <div className=" flex gap-2 items-center mt-4 ">
               <Badge className={" text-blue-600 font-bold"} variant={"ghost"}>
-                {singleJob?.position}
+                {singleJob?.position} Open Positions
               </Badge>
               <Badge className={" text-[#FA4F09] font-bold"} variant={"ghost"}>
                 {singleJob?.salary}LPA
@@ -123,7 +123,7 @@ const Description = () => {
           <h1 className="font-bold my-1 ">
             Role:{" "}
             <span className=" pl-4 font-normal text-gray-800">
-              {singleJob?.position}
+              {singleJob?.position} Open Positions
             </span>
           </h1>
           <h1 className="font-bold my-1 ">

@@ -14,6 +14,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import axios from "axios";
+import { JOB_API_ENDPOINT } from "@/utils/data";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 const companyArray = [];
 
@@ -21,24 +26,65 @@ const PostJob = () => {
   const [input, setInput] = useState({
     title: "",
     description: "",
-    location: "",
-    salary: "",
-    companyId: "",
-    position: 0,
     requirements: "",
-    experience: "",
+    salary: "",
+    location: "",
     jobType: "",
+    experience: "",
+    position: 0,
+    companyId: "",
   });
+  const navigate = useNavigate();
   const { companies } = useSelector((store) => store.company);
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
+  };
+  const [loading, setLoading] = useState(false);
+
+  const selectChangeHandler = (value) => {
+    const selectedCompany = companies.find(
+      (company) => company.name.toLowerCase() === value
+    );
+    setInput({ ...input, companyId: selectedCompany._id });
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await axios.post(`${JOB_API_ENDPOINT}/post`, input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        navigate("/admin/jobs");
+      } else {
+        toast.error(res.data.message);
+        navigate("/admin/jobs");
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message || "Something went wrong");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+      
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <Navbar />
       <div className="flex items-center justify-center w-screen my-5">
-        <form className="p-8 max-w-4xl border border-gray-500 shadow-sm hover:shadow-xl hover:shadow-red-300 rounded-lg">
+        <form
+          onSubmit={submitHandler}
+          className="p-8 max-w-4xl border border-gray-500 shadow-sm hover:shadow-xl hover:shadow-red-300 rounded-lg"
+        >
           <div className="grid grid-cols-2 gap-5">
             <div>
               <Label>Title</Label>
@@ -131,14 +177,17 @@ const PostJob = () => {
 
             <div>
               {companies.length > 0 && (
-                <Select>
+                <Select onValueChange={selectChangeHandler}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Select a Company" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       {companies.map((company) => (
-                        <SelectItem key={company._id} value={company._id}>
+                        <SelectItem
+                          key={company._id}
+                          value={company.name.toLowerCase()}
+                        >
                           {company.name}
                         </SelectItem>
                       ))}
@@ -149,11 +198,21 @@ const PostJob = () => {
             </div>
           </div>
           <div className="flex items-center justify-center mt-5">
-            <Button className="w-full px-4 py-2 text-sm text-white bg-black rounded-md hover:bg-blue-600">
-              Post Job
-            </Button>
+            {loading ? (
+              <Button className="w-full px-4 py-2 text-sm text-white bg-black rounded-md ">
+                {" "}
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="w-full px-4 py-2 text-sm text-white bg-black rounded-md hover:bg-blue-600"
+              >
+                Post Job
+              </Button>
+            )}
           </div>
-          {companyArray.length === 0 && (
+          {companies.length === 0 && (
             <p className="text-sm font-bold my-3 text-center text-red-600">
               *Please register a company to post jobs.*
             </p>
