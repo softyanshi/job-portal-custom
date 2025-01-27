@@ -17,6 +17,8 @@ const Register = () => {
     password: "",
     role: "",
     phoneNumber: "",
+    pancard: "",
+    adharcard: "",
     file: "",
   });
 
@@ -38,6 +40,8 @@ const Register = () => {
     formData.append("fullname", input.fullname);
     formData.append("email", input.email);
     formData.append("password", input.password);
+    formData.append("pancard", input.pancard);
+    formData.append("adharcard", input.adharcard);
     formData.append("role", input.role);
     formData.append("phoneNumber", input.phoneNumber);
     if (input.file) {
@@ -109,6 +113,26 @@ const Register = () => {
               name="password"
               onChange={changeEventHandler}
               placeholder="********"
+            ></Input>
+          </div>
+          <div>
+            <Label>PAN Card Number</Label>
+            <Input
+              type="text"
+              value={input.pancard}
+              name="pancard"
+              onChange={changeEventHandler}
+              placeholder="ABCDEF1234G"
+            ></Input>
+          </div>
+          <div>
+            <Label>Adhar Card Number</Label>
+            <Input
+              type="text"
+              value={input.adharcard}
+              name="adharcard"
+              onChange={changeEventHandler}
+              placeholder="123456789012"
             ></Input>
           </div>
           <div className="my-2">
