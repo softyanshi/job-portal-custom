@@ -14,8 +14,7 @@ import { setLoading, setUser } from "@/redux/authSlice";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
-    password: "",
-    adharcard: "",
+    password: "", 
     role: "",
   });
   const navigate = useNavigate();
@@ -86,16 +85,7 @@ const Login = () => {
               placeholder="********"
             ></Input>
           </div>
-          <div className="my-2">
-            <Label>Adhar Card Number</Label>
-            <Input
-              type="text"
-              value={input.adharcard}
-              name="password"
-              onChange={changeEventHandler}
-              placeholder="123456789012"
-            ></Input>
-          </div>
+           
 
           <div className="flex items-center justify-between">
             <RadioGroup className="flex items-center gap-4 my-5 ">
