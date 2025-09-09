@@ -19,12 +19,13 @@ app.use(cookieParser());
 // CORS setup for both local + deployed frontend
 const corsOptions = {
   origin: [
-    "http://localhost:5173",
-   " https://job-portal-custom-frontend.onrender.com" // replace with your actual frontend render URL
+    "http://localhost:5173", // local frontend
+    "https://job-portal-custom-frontend.onrender.com" // deployed frontend
   ],
-  credentials: true,
+  credentials: true, // allow cookies/session
 };
 app.use(cors(corsOptions));
+
 
 // APIs
 app.use("/api/user", userRoute);
