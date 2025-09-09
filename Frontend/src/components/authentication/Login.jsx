@@ -11,12 +11,17 @@ import { USER_API_ENDPOINT } from "@/utils/data.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 
+
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "", 
     role: "",
   });
+
+  useEffect(() => {
+  dispatch(setLoading(false)); // Reset loading when page opens
+}, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, user } = useSelector((store) => store.auth);
@@ -29,6 +34,7 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    console.log("Login button clicked", input);
 
     try {
       dispatch(setLoading(true)); // Start loading
@@ -52,7 +58,7 @@ const Login = () => {
     if (user) {
       navigate("/");
     }
-  }, []);
+  }, [user]);
 
   return (
     <div>
@@ -114,20 +120,14 @@ const Login = () => {
             </RadioGroup>
           </div>
 
-          {loading ? (
-            <div className="flex items-center justify-center my-10">
-              <div className="spinner-border text-blue-600" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>
-          ) : (
-            <button
-              type="submit"
-              className="w-3/4 py-3 my-3 text-white flex items-center justify-center max-w-7xl mx-auto bg-blue-600 hover:bg-blue-800/90 rounded-md"
-            >
-              Login
-            </button>
-          )}
+          <button
+  type="submit"
+  className="w-1/2 py-3 my-3 text-white flex items-center justify-center max-w-7xl mx-auto bg-blue-600 hover:bg-blue-800/90 rounded-md"
+  disabled={loading}
+>
+  {loading ? "Logging in..." : "Login"}
+</button>
+
 
           <div className=" ">
             <p className="text-gray-700  text-center my-2">
