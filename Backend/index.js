@@ -20,7 +20,7 @@ app.use(cookieParser());
 const corsOptions = {
   origin: [
     "http://localhost:5173",
-    "https://your-frontend.onrender.com"  // replace with your actual frontend render URL
+    https://job-portal-custom-frontend.onrender.com // replace with your actual frontend render URL
   ],
   credentials: true,
 };
