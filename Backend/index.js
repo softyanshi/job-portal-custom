@@ -8,32 +8,45 @@ import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 
-dotenv.config({});
+dotenv.config();
 const app = express();
 
-//middleware
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// CORS setup for both local + deployed frontend
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: [
+    "http://localhost:5173",
+    "https://your-frontend.onrender.com"  // replace with your actual frontend render URL
+  ],
   credentials: true,
 };
-
 app.use(cors(corsOptions));
 
-const PORT = process.env.PORT || 5001;
-
- 
-//api's
-
+// APIs
 app.use("/api/user", userRoute);
 app.use("/api/company", companyRoute);
 app.use("/api/job", jobRoute);
 app.use("/api/application", applicationRoute);
 
-app.listen(PORT, () => {
-  connectDB();
-  console.log(`Server is running on port ${PORT}`);
+// Debug route to test deployment
+app.get("/api/ping", (req, res) => {
+  res.json({ message: "Backend is live ✅" });
 });
+
+// Start server after DB connection
+const PORT = process.env.PORT || 5001;
+
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`✅ Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Failed to connect to MongoDB", err);
+    process.exit(1);
+  });
