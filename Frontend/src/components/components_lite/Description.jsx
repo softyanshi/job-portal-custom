@@ -76,28 +76,29 @@ const Description = () => {
     fetchSingleJobs();
   }, [jobId, dispatch, user?._id]);
   console.log("single jobs", singleJob);
-
+if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error) return <div className="text-center text-red-500">{error}</div>;
   if (!singleJob) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
-    <div>
-      <div className="max-w-7xl mx-auto my-10 ">
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <div className="max-w-5xl mx-auto px-6 py-10" >
+        <div className= "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-gray-800 rounded-xl shadow p-6">
           <div>
-            <h1 className="font-bold text-xl ">{singleJob?.title}</h1>
+            <h1 className="font-bold text-2xl text-gray-900 dark:text-gray-100">{singleJob?.title}</h1>
             <div className=" flex gap-2 items-center mt-4 ">
-              <Badge className={" text-blue-600 font-bold"} variant={"ghost"}>
+              <Badge variant="secondary" className="font-medium text-blue-600">
                 {singleJob?.position} Open Positions
               </Badge>
-              <Badge className={" text-[#FA4F09] font-bold"} variant={"ghost"}>
+              <Badge variant="secondary" className="font-medium text-orange-500">
                 {singleJob?.salary}LPA
               </Badge>
-              <Badge className={" text-[#6B3AC2]  font-bold"} variant={"ghost"}>
+              <Badge  variant="secondary" className="font-medium text-purple-600">
                 {singleJob?.location}
               </Badge>
-              <Badge className={" text-black font-bold"} variant={"ghost"}>
+              <Badge variant="secondary" className="font-medium text-gray-700 dark:text-gray-300">
                 {singleJob?.jobType}
               </Badge>
             </div>

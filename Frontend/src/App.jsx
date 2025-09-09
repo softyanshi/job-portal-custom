@@ -17,7 +17,9 @@ import AdminJobs from "./components/admincomponent/AdminJobs.jsx";
 import PostJob from "./components/admincomponent/PostJob";
 import Applicants from "./components/admincomponent/Applicants";
 import ProtectedRoute from "./components/admincomponent/ProtectedRoute";
-import Creator from "./components/creator/Creator.jsx";
+
+import SavedJobs from "./components/components_lite/SavedJobs";
+import { ThemeProvider } from "next-themes";
 
 const appRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -58,9 +60,10 @@ const appRouter = createBrowserRouter([
     element: <Browse />,
   },
   {
-    path:"/Creator",
-    element: <Creator/>
-  },
+  path: "/saved-jobs",
+  element: <SavedJobs />,
+},
+  
 
   // /admin
   {
@@ -117,9 +120,13 @@ const appRouter = createBrowserRouter([
 
 function App() {
   return (
-    <div>
+     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    <div  className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white transition-colors">
       <RouterProvider router={appRouter}></RouterProvider>
+     
     </div>
+    
+    </ThemeProvider>
   );
 }
 

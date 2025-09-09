@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { useDispatch } from "react-redux";
 import { setSearchedQuery } from "@/redux/jobSlice";
+import { ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
 
 const filterData = [
   {
@@ -20,17 +20,17 @@ const filterData = [
   {
     filterType: "Technology",
     array: [
-      "Mern",
+      "MERN",
       "React",
       "Data Scientist",
       "Fullstack",
       "Node",
       "Python",
       "Java",
-      "frontend",
-      "backend",
-      "mobile",
-      "desktop",
+      "Frontend",
+      "Backend",
+      "Mobile",
+      "Desktop",
     ],
   },
   {
@@ -43,39 +43,92 @@ const filterData = [
   },
 ];
 
-const Filter = () => {
-  const [selectedValue, setSelectedValue] = useState("");
-  const handleChange = (value) => {
-    setSelectedValue(value);
-  };
+const FilterCard = () => {
+  const [openSections, setOpenSections] = useState({
+    Location: true,
+    Technology: true,
+    Experience: true,
+    Salary: true,
+  });
+
+  const [selectedFilters, setSelectedFilters] = useState({});
   const dispatch = useDispatch();
+
+  const toggleSection = (key) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleCheckboxChange = (filterType, value) => {
+    setSelectedFilters((prev) => {
+      const current = prev[filterType] || [];
+      if (current.includes(value)) {
+        return {
+          ...prev,
+          [filterType]: current.filter((item) => item !== value),
+        };
+      } else {
+        return { ...prev, [filterType]: [...current, value] };
+      }
+    });
+  };
+
+  // Whenever filters change, update Redux search query (you can enhance logic later)
   useEffect(() => {
-    dispatch(setSearchedQuery(selectedValue));
-  }, [selectedValue]);
+    const queryString = Object.values(selectedFilters).flat().join(" ");
+    dispatch(setSearchedQuery(queryString));
+  }, [selectedFilters, dispatch]);
+
+  const clearAll = () => {
+    setSelectedFilters({});
+    dispatch(setSearchedQuery(""));
+  };
 
   return (
-    <div className="w-full bg-white rounded-md">
-      <h1 className="font-bold text-lg">Filter Jobs</h1>
-      <hr className="mt-3" />
-      <RadioGroup value={selectedValue} onValueChange={handleChange}>
-        {filterData.map((data, index) => (
-          <div key={index}>
-            <h2 className="font-bold text-lg">{data.filterType}</h2>
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md p-4 sticky top-5 h-fit border border-gray-200 dark:border-gray-700">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+          <SlidersHorizontal className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+          Filters
+        </h2>
+        <button
+          onClick={clearAll}
+          className="text-sm text-purple-600 dark:text-purple-400 hover:underline"
+        >
+          Clear All
+        </button>
+      </div>
 
-            {data.array.map((item, indx) => {
-              const itemId = `Id${index}-${indx}`;
-              return (
-                <div key={itemId} className="flex items-center space-x-2 my-2">
-                  <RadioGroupItem value={item} id={itemId}></RadioGroupItem>
-                  <label htmlFor={itemId}>{item}</label>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </RadioGroup>
+      {filterData.map((section) => (
+        <div key={section.filterType} className="mb-4">
+          <button
+            onClick={() => toggleSection(section.filterType)}
+            className="flex justify-between w-full text-gray-700 dark:text-gray-200 font-medium"
+          >
+            {section.filterType}
+            {openSections[section.filterType] ? <ChevronUp /> : <ChevronDown />}
+          </button>
+          {openSections[section.filterType] && (
+            <div className="mt-2 space-y-2">
+              {section.array.map((item) => (
+                <label
+                  key={item}
+                  className="flex items-center gap-2 text-gray-600 dark:text-gray-300 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 p-1 rounded-md"
+                >
+                  <input
+                    type="checkbox"
+                    className="accent-purple-600"
+                    checked={selectedFilters[section.filterType]?.includes(item) || false}
+                    onChange={() => handleCheckboxChange(section.filterType, item)}
+                  />
+                  {item}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
 
-export default Filter;
+export default FilterCard;

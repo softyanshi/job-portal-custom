@@ -24,7 +24,7 @@ const EditProfileModal = ({ open, setOpen }) => {
     email: user?.email,
     phoneNumber: user?.phoneNumber,
     bio: user?.profile?.bio,
-    skills: user?.profile?.skills?.map((skill) => skill),
+    skills: user?.profile?.skills?.join(", ") || "",
     file: user?.profile?.resume,
   });
   const dispatch = useDispatch();
@@ -40,7 +40,10 @@ const EditProfileModal = ({ open, setOpen }) => {
     formData.append("email", input.email);
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
-    formData.append("skills", input.skills);
+     formData.append(
+      "skills",
+      JSON.stringify(input.skills.split(",").map((s) => s.trim()))
+    );
 
     if (input.file) {
       formData.append("file", input.file);
@@ -65,7 +68,7 @@ const EditProfileModal = ({ open, setOpen }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message  || "Update failed");
     } finally {
       setLoading(false);
     }
@@ -81,28 +84,28 @@ const EditProfileModal = ({ open, setOpen }) => {
 
   return (
     <div>
-      <Dialog open={open}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
-          className="sm:max-w-[500px]"
+          className="sm:max-w-[500px] bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
           onInteractOutside={() => setOpen(false)}
         >
           <DialogHeader>
-            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">Edit Profile</DialogTitle>
           </DialogHeader>
           {/* Form for editing profile */}
-          <form onSubmit={handleFileChange}>
+          <form onSubmit={handleFileChange} className="space-y-4">
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
+                <Label htmlFor="fullname" className="text-right">
                   Name
                 </Label>
                 <input
                   type="text"
-                  id="name"
+                  id="fullname"
                   value={input.fullname}
-                  name="name"
+                  name="fullname"
                   onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
+                  className="col-span-3 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-gray-800"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -115,7 +118,7 @@ const EditProfileModal = ({ open, setOpen }) => {
                   value={input.email}
                   name="email"
                   onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
+                  className="col-span-3 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-gray-800"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -128,21 +131,21 @@ const EditProfileModal = ({ open, setOpen }) => {
                   value={input.phoneNumber} // Ensure this is correctly set
                   name="phoneNumber" // Ensure this matches the expected key
                   onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
+                  className="col-span-3 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-gray-800"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="bio" className="text-right">
                   Bio
                 </Label>
-                <input
-                  type="bio"
+                <textarea
+                  
                   id="bio"
                   value={input.bio}
                   name="bio"
                   onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
-                />
+                  className="col-span-3 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-gray-800"
+            />
               </div>
               {/* skills */}
               <div className="grid grid-cols-4 items-center gap-4">
@@ -153,8 +156,9 @@ const EditProfileModal = ({ open, setOpen }) => {
                   id="skills"
                   name="skills"
                   value={input.skills}
+                  placeholder="e.g. React, Node.js, Python"
                   onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
+                  className="col-span-3 border border-gray-300  dark:border-gray-700 rounded-md p-2 bg-white dark:bg-gray-800"
                 />
               </div>
               {/* Resume file upload */}
@@ -175,12 +179,12 @@ const EditProfileModal = ({ open, setOpen }) => {
 
             <DialogFooter>
               {loading ? (
-                <Button className="w-full my-4">
+                <Button className="w-full my-4" disabled>
                   {" "}
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
                 </Button>
               ) : (
-                <Button type="submit" className="w-full my-4">
+                <Button type="submit" className="w-full my-4 bg-blue-600 hover:bg-blue-700 text-white">
                   Save
                 </Button>
               )}

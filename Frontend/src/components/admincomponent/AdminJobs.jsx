@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import AdminJobsTable from "./AdminJobsTable";
 import useGetAllAdminJobs from "@/hooks/useGetAllJAdminobs";
 import { setSearchJobByText } from "@/redux/jobSlice";
+import { motion } from "framer-motion";
+
 
 const AdminJobs = () => {
   useGetAllAdminJobs();
@@ -18,26 +20,44 @@ const AdminJobs = () => {
   useEffect(() => {
     dispatch(setSearchJobByText(input));
   }, [input]);
+
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
+      {/* Navbar */}
       <Navbar />
-      <div className=" max-w-6xl mx-auto my-10">
-        <div className="flex items-center justify-between my-5">
+
+      {/* Main Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-6xl mx-auto my-10 px-6"
+      >
+        {/* Header: Search & Post Job */}
+        <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0">
           <Input
-            className="w-fit"
+            className="w-full md:w-1/2"
             placeholder="Filter by Name & Jobs"
             onChange={(e) => setInput(e.target.value)}
-          ></Input>
-          <Button onClick={() => navigate("/admin/jobs/create")}>
-            Post new Job
+          />
+          <Button
+            onClick={() => navigate("/admin/jobs/create")}
+            className="bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800 transition-colors"
+          >
+            Post New Job
           </Button>
         </div>
-        <div>
+
+        {/* Jobs Table */}
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-xl p-4 overflow-x-auto">
           <AdminJobsTable />
         </div>
-      </div>
+      </motion.div>
+
+     
     </div>
   );
 };
 
 export default AdminJobs;
+

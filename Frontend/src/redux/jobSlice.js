@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { JOB_API_ENDPOINT } from "@/utils/data";
 
 const initialState = {
   allJobs: [],
@@ -43,3 +45,4 @@ export const {
   setSearchedQuery,
 } = jobSlice.actions;
 export default jobSlice.reducer;
+

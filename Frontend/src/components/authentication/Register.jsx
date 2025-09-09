@@ -74,130 +74,147 @@ const Register = () => {
       navigate("/");
     }
   }, []);
-  return (
-    <div>
-      <Navbar></Navbar>
-      <div className="flex items-center justify-center max-w-7xl mx-auto">
+  
+   return (
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <Navbar />
+      <div className="flex items-center  justify-center py-12 px-4 sm:px-6 lg:px-8">
         <form
           onSubmit={submitHandler}
-          className="w-1/2 border border-gray-500 rounded-md p-4 my-10"
+          className="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 space-y-6 transition-colors duration-300"
         >
-          <h1 className="font-bold text-xl mb-5 text-center text-blue-600">
+          <h1 className="text-3xl font-bold text-center text-blue-600 dark:text-blue-400">
             Register
           </h1>
-          <div className="my-2">
-            <Label>Fullname</Label>
-            <Input
-              type="text"
-              value={input.fullname}
-              name="fullname"
-              onChange={changeEventHandler}
-              placeholder="John Doe"
-            ></Input>
+
+          <div className="space-y-4">
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">Full Name</Label>
+              <Input
+                type="text"
+                name="fullname"
+                value={input.fullname}
+                onChange={changeEventHandler}
+                placeholder="John Doe"
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">Email</Label>
+              <Input
+                type="email"
+                name="email"
+                value={input.email}
+                onChange={changeEventHandler}
+                placeholder="johndoe@gmail.com"
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                value={input.password}
+                onChange={changeEventHandler}
+                placeholder="********"
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">PAN Card Number</Label>
+              <Input
+                type="text"
+                name="pancard"
+                value={input.pancard}
+                onChange={changeEventHandler}
+                placeholder="ABCDEF1234G"
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">Adhar Card Number</Label>
+              <Input
+                type="text"
+                name="adharcard"
+                value={input.adharcard}
+                onChange={changeEventHandler}
+                placeholder="123456789012"
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">Phone Number</Label>
+              <Input
+                type="tel"
+                name="phoneNumber"
+                value={input.phoneNumber}
+                onChange={changeEventHandler}
+                placeholder="+1234567890"
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">Role</Label>
+              <RadioGroup className="flex items-center gap-6 mt-2">
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="radio"
+                    name="role"
+                    value="Student"
+                    checked={input.role === "Student"}
+                    onChange={changeEventHandler}
+                    className="cursor-pointer"
+                  />
+                  <Label className="text-gray-700 dark:text-gray-300">Student</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="radio"
+                    name="role"
+                    value="Recruiter"
+                    checked={input.role === "Recruiter"}
+                    onChange={changeEventHandler}
+                    className="cursor-pointer"
+                  />
+                  <Label className="text-gray-700 dark:text-gray-300">Recruiter</Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            <div>
+              <Label className="text-gray-700 dark:text-gray-300">Profile Photo</Label>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={ChangeFilehandler}
+                className="mt-1 cursor-pointer"
+              />
+            </div>
           </div>
-          <div className="my-2">
-            <Label>Email</Label>
-            <Input
-              type="email"
-              value={input.email}
-              name="email"
-              onChange={changeEventHandler}
-              placeholder="johndoe@gmail.com"
-            ></Input>
-          </div>
-          <div className="my-2">
-            <Label>Password</Label>
-            <Input
-              type="password"
-              value={input.password}
-              name="password"
-              onChange={changeEventHandler}
-              placeholder="********"
-            ></Input>
-          </div>
-          <div>
-            <Label>PAN Card Number</Label>
-            <Input
-              type="text"
-              value={input.pancard}
-              name="pancard"
-              onChange={changeEventHandler}
-              placeholder="ABCDEF1234G"
-            ></Input>
-          </div>
-          <div>
-            <Label>Adhar Card Number</Label>
-            <Input
-              type="text"
-              value={input.adharcard}
-              name="adharcard"
-              onChange={changeEventHandler}
-              placeholder="123456789012"
-            ></Input>
-          </div>
-          <div className="my-2">
-            <Label>Phone Number</Label>
-            <Input
-              type="tel"
-              value={input.phoneNumber}
-              name="phoneNumber"
-              onChange={changeEventHandler}
-              placeholder="+1234567890"
-            ></Input>
-          </div>
-          <div className="flex items-center justify-between">
-            <RadioGroup className="flex items-center gap-4 my-5 ">
-              <div className="flex items-center space-x-2">
-                <Input
-                  type="radio"
-                  name="role"
-                  value="Student"
-                  checked={input.role === "Student"}
-                  onChange={changeEventHandler}
-                  className="cursor-pointer"
-                />
-                <Label htmlFor="r1">Student</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Input
-                  type="radio"
-                  name="role"
-                  value="Recruiter"
-                  checked={input.role === "Recruiter"}
-                  onChange={changeEventHandler}
-                  className="cursor-pointer"
-                />
-                <Label htmlFor="r2">Recruiter</Label>
-              </div>
-            </RadioGroup>
-          </div>
-          <div className="flex items-center gap-2">
-            <Label>Profile Photo</Label>
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={ChangeFilehandler}
-              className="cursor-pointer"
-            />
-          </div>
+
           {loading ? (
-            <div className="flex items-center justify-center my-10">
-              <div className="spinner-border text-blue-600" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+            <div className="flex items-center justify-center my-6">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-600 border-b-4"></div>
             </div>
           ) : (
             <button
               type="submit"
-              className="block w-full py-3 my-3 text-white bg-primary hover:bg-primary/90 rounded-md"
+              className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all"
             >
               Register
             </button>
           )}
 
-          <p className="text-gray-500 text-md my-2">
+          <p className="text-center text-gray-600 dark:text-gray-300">
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-700 font-semibold">
+            <Link to="/login" className="text-blue-700 dark:text-blue-400 font-semibold hover:underline">
               Login
             </Link>
           </p>
