@@ -23,10 +23,9 @@ const Register = () => {
   });
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const { loading, user } = useSelector((store) => store.auth);
 
-  const { loading } = useSelector((store) => store.auth);
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -68,26 +67,26 @@ const Register = () => {
     }
   };
 
-  const { user } = useSelector((store) => store.auth);
   useEffect(() => {
     if (user) {
       navigate("/");
     }
-  }, []);
-  
-   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+  }, [user]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
       <Navbar />
-      <div className="flex items-center  justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="flex items-center justify-center py-12 px-4">
         <form
           onSubmit={submitHandler}
-          className="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 space-y-6 transition-colors duration-300"
+          className="w-full max-w-lg bg-white dark:bg-gray-900 shadow-2xl rounded-2xl p-8 space-y-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300"
         >
           <h1 className="text-3xl font-bold text-center text-blue-600 dark:text-blue-400">
-            Register
+            Create an Account ✨
           </h1>
 
           <div className="space-y-4">
+            {/* Fullname */}
             <div>
               <Label className="text-gray-700 dark:text-gray-300">Full Name</Label>
               <Input
@@ -96,10 +95,11 @@ const Register = () => {
                 value={input.fullname}
                 onChange={changeEventHandler}
                 placeholder="John Doe"
-                className="mt-1"
+                className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
             </div>
 
+            {/* Email */}
             <div>
               <Label className="text-gray-700 dark:text-gray-300">Email</Label>
               <Input
@@ -108,10 +108,11 @@ const Register = () => {
                 value={input.email}
                 onChange={changeEventHandler}
                 placeholder="johndoe@gmail.com"
-                className="mt-1"
+                className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
             </div>
 
+            {/* Password */}
             <div>
               <Label className="text-gray-700 dark:text-gray-300">Password</Label>
               <Input
@@ -120,10 +121,11 @@ const Register = () => {
                 value={input.password}
                 onChange={changeEventHandler}
                 placeholder="********"
-                className="mt-1"
+                className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
             </div>
 
+            {/* PAN */}
             <div>
               <Label className="text-gray-700 dark:text-gray-300">PAN Card Number</Label>
               <Input
@@ -131,23 +133,25 @@ const Register = () => {
                 name="pancard"
                 value={input.pancard}
                 onChange={changeEventHandler}
-                placeholder="ABCDEF1234G"
-                className="mt-1"
+                placeholder="ABCDE1234F"
+                className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
             </div>
 
+            {/* Aadhar */}
             <div>
-              <Label className="text-gray-700 dark:text-gray-300">Adhar Card Number</Label>
+              <Label className="text-gray-700 dark:text-gray-300">Aadhar Card Number</Label>
               <Input
                 type="text"
                 name="adharcard"
                 value={input.adharcard}
                 onChange={changeEventHandler}
                 placeholder="123456789012"
-                className="mt-1"
+                className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
             </div>
 
+            {/* Phone */}
             <div>
               <Label className="text-gray-700 dark:text-gray-300">Phone Number</Label>
               <Input
@@ -155,15 +159,16 @@ const Register = () => {
                 name="phoneNumber"
                 value={input.phoneNumber}
                 onChange={changeEventHandler}
-                placeholder="+1234567890"
-                className="mt-1"
+                placeholder="+91 9876543210"
+                className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
             </div>
 
+            {/* Role */}
             <div>
-              <Label className="text-gray-700 dark:text-gray-300">Role</Label>
+              <Label className="text-gray-700 dark:text-gray-300">Select Role</Label>
               <RadioGroup className="flex items-center gap-6 mt-2">
-                <div className="flex items-center space-x-2">
+                <label className="flex items-center gap-2 cursor-pointer">
                   <Input
                     type="radio"
                     name="role"
@@ -172,9 +177,9 @@ const Register = () => {
                     onChange={changeEventHandler}
                     className="cursor-pointer"
                   />
-                  <Label className="text-gray-700 dark:text-gray-300">Student</Label>
-                </div>
-                <div className="flex items-center space-x-2">
+                  <span className="text-gray-600 dark:text-gray-300">Student</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
                   <Input
                     type="radio"
                     name="role"
@@ -183,22 +188,24 @@ const Register = () => {
                     onChange={changeEventHandler}
                     className="cursor-pointer"
                   />
-                  <Label className="text-gray-700 dark:text-gray-300">Recruiter</Label>
-                </div>
+                  <span className="text-gray-600 dark:text-gray-300">Recruiter</span>
+                </label>
               </RadioGroup>
             </div>
 
+            {/* File Upload */}
             <div>
               <Label className="text-gray-700 dark:text-gray-300">Profile Photo</Label>
               <Input
                 type="file"
                 accept="image/*"
                 onChange={ChangeFilehandler}
-                className="mt-1 cursor-pointer"
+                className="mt-1 cursor-pointer dark:bg-gray-800 dark:text-white dark:border-gray-700"
               />
             </div>
           </div>
 
+          {/* Submit Button */}
           {loading ? (
             <div className="flex items-center justify-center my-6">
               <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-600 border-b-4"></div>
@@ -206,16 +213,30 @@ const Register = () => {
           ) : (
             <button
               type="submit"
-              className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all"
+              className="w-full py-3 my-4 text-white font-semibold rounded-xl 
+                         bg-gradient-to-r from-blue-500 to-blue-700 
+                         hover:from-blue-600 hover:to-blue-800 
+                         transition-all duration-300 shadow-md"
             >
               Register
             </button>
           )}
 
+          {/* Divider */}
+          <div className="flex items-center my-4">
+            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-700"></div>
+            <span className="px-3 text-gray-500 dark:text-gray-400 text-sm">OR</span>
+            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-700"></div>
+          </div>
+
+          {/* Redirect to Login */}
           <p className="text-center text-gray-600 dark:text-gray-300">
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-700 dark:text-blue-400 font-semibold hover:underline">
-              Login
+            <Link
+              to="/login"
+              className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+            >
+              Login here
             </Link>
           </p>
         </form>
@@ -225,3 +246,4 @@ const Register = () => {
 };
 
 export default Register;
+
