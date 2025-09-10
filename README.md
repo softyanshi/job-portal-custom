@@ -115,7 +115,7 @@ npm run dev
 
 
 
-## Screenshots
+## 📸 Screenshots
 
 
 Applicant Dashboard
@@ -139,6 +139,7 @@ Recruiter Page
 Dark/Light Mode
 <img width="1894" height="887" alt="image" src="https://github.com/user-attachments/assets/3064ee61-7075-4256-8d16-25fb1eba4581" />
 
-## Live Demo
+
+## 🌐 Live Demo
 https://job-portal-custom-frontend.onrender.com/
 
