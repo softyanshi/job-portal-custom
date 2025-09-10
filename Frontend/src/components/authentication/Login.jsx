@@ -2,42 +2,36 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components_lite/Navbar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Navigate, useNavigate } from "react-router-dom";
-import { RadioGroup } from "../ui/radio-group";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import { USER_API_ENDPOINT } from "@/utils/data.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 
-
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
-    password: "", 
+    password: "",
     role: "",
   });
 
-  useEffect(() => {
-  dispatch(setLoading(false)); // Reset loading when page opens
-}, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, user } = useSelector((store) => store.auth);
+
+  useEffect(() => {
+    dispatch(setLoading(false)); // Reset loading when page opens
+  }, []);
+
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
-  };
-  const ChangeFilehandler = (e) => {
-    setInput({ ...input, file: e.target.files?.[0] });
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("Login button clicked", input);
-
     try {
-      dispatch(setLoading(true)); // Start loading
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_ENDPOINT}/login`, input, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -50,7 +44,7 @@ const Login = () => {
     } catch (error) {
       toast.error("Login failed");
     } finally {
-      dispatch(setLoading(false)); // End loading
+      dispatch(setLoading(false));
     }
   };
 
@@ -61,41 +55,48 @@ const Login = () => {
   }, [user]);
 
   return (
-    <div>
-      <Navbar></Navbar>
-      <div className="flex items-center justify-center max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
+      <Navbar />
+      <div className="flex items-center justify-center px-4 py-12">
         <form
           onSubmit={submitHandler}
-          className="w-1/2 border border-gray-500 rounded-md p-4 my-10"
+          className="w-full max-w-md bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700 transition-colors duration-300"
         >
-          <h1 className="font-bold text-xl mb-5 text-center text-blue-600">
-            Login
+          <h1 className="font-bold text-3xl text-center text-blue-600 dark:text-blue-400 mb-6">
+            Welcome Back 👋
           </h1>
-          <div className="my-2">
-            <Label>Email</Label>
+
+          {/* Email */}
+          <div className="my-4">
+            <Label className="text-gray-700 dark:text-gray-300">Email</Label>
             <Input
               type="email"
               value={input.email}
               name="email"
               onChange={changeEventHandler}
               placeholder="johndoe@gmail.com"
-            ></Input>
+              className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+            />
           </div>
-          <div className="my-2">
-            <Label>Password</Label>
+
+          {/* Password */}
+          <div className="my-4">
+            <Label className="text-gray-700 dark:text-gray-300">Password</Label>
             <Input
               type="password"
               value={input.password}
               name="password"
               onChange={changeEventHandler}
               placeholder="********"
-            ></Input>
+              className="mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+            />
           </div>
-           
 
-          <div className="flex items-center justify-between">
-            <RadioGroup className="flex items-center gap-4 my-5 ">
-              <div className="flex items-center space-x-2">
+          {/* Role Selection */}
+          <div className="my-4">
+            <Label className="text-gray-700 dark:text-gray-300">Select Role</Label>
+            <div className="flex gap-6 mt-2">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <Input
                   type="radio"
                   name="role"
@@ -104,9 +105,10 @@ const Login = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="r1">Student</Label>
-              </div>
-              <div className="flex items-center space-x-2">
+                <span className="text-gray-600 dark:text-gray-300">Student</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
                 <Input
                   type="radio"
                   name="role"
@@ -115,30 +117,39 @@ const Login = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="r2">Recruiter</Label>
-              </div>
-            </RadioGroup>
+                <span className="text-gray-600 dark:text-gray-300">Recruiter</span>
+              </label>
+            </div>
           </div>
 
+          {/* Login Button */}
           <button
-  type="submit"
-  className="w-1/2 py-3 my-3 text-white flex items-center justify-center max-w-7xl mx-auto bg-blue-600 hover:bg-blue-800/90 rounded-md"
-  disabled={loading}
->
-  {loading ? "Logging in..." : "Login"}
-</button>
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 my-4 text-white font-semibold rounded-xl 
+                       bg-gradient-to-r from-blue-500 to-blue-700 
+                       hover:from-blue-600 hover:to-blue-800 
+                       transition-all duration-300 shadow-md disabled:opacity-70"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
 
-
-          <div className=" ">
-            <p className="text-gray-700  text-center my-2">
-              Create new Account{" "}
-              <Link to="/register" className="text-blue-700">
-                <button className=" w-1/2 py-3 my-3 text-white flex items-center justify-center max-w-7xl mx-auto bg-green-600 hover:bg-green-800/90 rounded-md">
-                  Register
-                </button>
-              </Link>
-            </p>
+          {/* Divider */}
+          <div className="flex items-center my-4">
+            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-700"></div>
+            <span className="px-3 text-gray-500 dark:text-gray-400 text-sm">OR</span>
+            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-700"></div>
           </div>
+
+          {/* Register Redirect */}
+          <p className="text-center text-gray-700 dark:text-gray-300">
+            Don’t have an account?{" "}
+            <Link to="/register">
+              <span className="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                Register here
+              </span>
+            </Link>
+          </p>
         </form>
       </div>
     </div>
@@ -146,3 +157,4 @@ const Login = () => {
 };
 
 export default Login;
+
