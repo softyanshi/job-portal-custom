@@ -11,6 +11,8 @@
 A **full-stack MERN Job Portal** with **dark/light mode toggle**, **responsive design**, and **role-based dashboards** for **Students** and **Recruiters**.  
 
 ---
+<img width="1896" height="896" alt="image" src="https://github.com/user-attachments/assets/735c56fa-4722-450d-b6a7-bd6e2338ff80" />
+
 
 ## 🚀 Table of Contents
 
@@ -21,8 +23,7 @@ A **full-stack MERN Job Portal** with **dark/light mode toggle**, **responsive d
 - [⚙️ Getting Started](#-getting-started)  
 - [📸 Screenshots](#-screenshots)  
 - [🌐 Live Demo](#-live-demo)  
-- [📊 Architecture](#-architecture)  
-- [📄 License](#-license)  
+ 
 
 ---
 
@@ -110,4 +111,33 @@ npm run dev
 cd ../frontend
 npm run dev
 
-```bash
+```
+
+
+
+📸 Screenshots
+
+
+Applicant Dashboard
+<img width="1891" height="884" alt="image" src="https://github.com/user-attachments/assets/0146153c-052e-451f-a203-2d535e99c7f7" />
+
+
+Job Search & Filters
+<img width="1852" height="891" alt="image" src="https://github.com/user-attachments/assets/60042242-519b-4af1-9219-dcb6a0211732" />
+
+
+Latest Jobs and Openings
+<img width="1894" height="894" alt="image" src="https://github.com/user-attachments/assets/aabb658c-6a28-4580-96cd-a0eeef9bc3ac" />
+
+Recruiter Page
+<img width="1896" height="889" alt="image" src="https://github.com/user-attachments/assets/8c873da8-4e67-4832-9dac-cf7bf2d6186e" />
+
+<img width="1676" height="722" alt="image" src="https://github.com/user-attachments/assets/0e3ac5c4-3e22-4b01-969f-70cf697555bd" />
+
+
+
+Dark/Light Mode
+<img width="1894" height="887" alt="image" src="https://github.com/user-attachments/assets/3064ee61-7075-4256-8d16-25fb1eba4581" />
+
+Live DEMO - https://job-portal-custom-frontend.onrender.com/
+
